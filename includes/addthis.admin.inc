@@ -282,3 +282,9 @@ function addthis_admin_settings_form($form_state) {
   );
   return system_settings_form($form);
 }
+
+function addthis_admin_settings_advanced_form($form_state) {
+  return array(
+    '#type' => 'textarea',
+  );
+}
