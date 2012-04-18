@@ -63,9 +63,10 @@ function addthis_menu() {
     'access arguments' => array(AddThis::PERMISSION_ADMINISTER_ADDTHIS),
     'type' => MENU_NORMAL_ITEM,
     'file' => AddThis::ADMIN_INCLUDE_FILE,
+    'weight' => 0,
   );
-  $menu_items['admin/config/user-interface/addthis/overview'] = array(
-    'title' => t('Overview'),
+  $menu_items['admin/config/user-interface/addthis/basic'] = array(
+    'title' => t('Basic settings'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
   $menu_items['admin/config/user-interface/addthis/advanced'] = array(
@@ -73,6 +74,9 @@ function addthis_menu() {
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('addthis_admin_settings_advanced_form'),
+    'access arguments' => array(AddThis::PERMISSION_ADMINISTER_ADDTHIS),
+    'file' => AddThis::ADMIN_INCLUDE_FILE,
+    'weight' => 10
   );
   return $menu_items;
 }
