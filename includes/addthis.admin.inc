@@ -76,7 +76,7 @@ function addthis_admin_settings_form($form_state) {
   $form['fieldset_compact_menu']['enabled_services_fieldset'] = array(
     '#type' => 'fieldset',
     '#title' => t('Enabled services'),
-    '#description' => t('The sharing services you select here will be displayed in the compact menu. If you select no services, AddThis will provide a list of frequently used services. This list is updated regularly.'),
+    '#description' => t('The sharing services you select here will be displayed in the compact menu. If you select no services, AddThis will provide a list of frequently used services. This list is updated regularly. <b>Notice that this setting does not define what services should be display in a toolbox.</b>'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -86,7 +86,6 @@ function addthis_admin_settings_form($form_state) {
     '#options' => AddThis::getInstance()->getServices(),
     '#default_value' => AddThis::getInstance()->getEnabledServices(),
     '#required' => FALSE,
-    '#theme' => 'addthis_checkboxes_columns',
     '#columns' => 3,
   );
 
@@ -174,7 +173,7 @@ function addthis_admin_settings_form($form_state) {
     '#value' => $rdf_description,
     '#access' => !$rdf_enabled,
   );
-  
+
   $form['fieldset_analytics'][AddThis::FACEBOOK_LIKE_COUNT_SUPPORT_ENABLED] = array(
         '#type' => 'checkbox',
         '#title' => t('Enable Facebook Like tracking'),
