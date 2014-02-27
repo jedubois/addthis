@@ -34,6 +34,10 @@ class AddThis {
   const CUSTOM_CONFIGURATION_CODE_ENABLED_KEY = 'addthis_custom_configuration_code_enabled';
   const CUSTOM_CONFIGURATION_CODE_KEY = 'addthis_custom_configuration_code';
   const ENABLED_SERVICES_KEY = 'addthis_enabled_services';
+  const GLOBAL_TOOLBOX_SERVICES_KEY = 'addthis_global_toolbox_services';
+  const GLOBAL_TOOLBOX_BUTTON_SIZE_KEY = 'addthis_global_toolbox_button_size';
+  const GLOBAL_TOOLBOX_COUNTER_ORIENTATION_KEY = 'addthis_global_toolbox_counter_orientation';
+  const GLOBAL_TOOLBOX_EXTRA_CSS_KEY = 'addthis_global_toolbox_extra_CSS';
   const GOOGLE_ANALYTICS_TRACKING_ENABLED_KEY = 'addthis_google_analytics_tracking_enabled';
   const GOOGLE_ANALYTICS_SOCIAL_TRACKING_ENABLED_KEY = 'addthis_google_analytics_social_tracking_enabled';
   const FACEBOOK_LIKE_COUNT_SUPPORT_ENABLED = 'addthis_facebook_like_count_support_enabled';
