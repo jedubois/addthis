@@ -129,7 +129,7 @@ function addthis_displays_addthis_display_markup__addthis_basic_button($options 
  * Implements hook_addthis_display_markup__[display]().
  *  Render a basic_toolbox using global settings.
  */
-function addthis_displays_addthis_display_markup__addthis_global_toolbox($options = array())
+function addthis_displays_addthis_display_markup__addthis_global_toolbox($options = array()) {
   // Load options from variables and pass to basic_toolbox.
   $options['#display']['settings']['share_services'] = variable_get(AddThis::GLOBAL_TOOLBOX_SERVICES_KEY, 'twitter,facbook,compact');
   $options['#display']['settings']['buttons_size'] = variable_get(AddThis::GLOBAL_TOOLBOX_BUTTON_SIZE_KEY, AddThis::CSS_16x16);
