@@ -301,12 +301,20 @@ function addthis_admin_settings_form($form_state) {
     '#default_value' => AddThis::getInstance()->getTwitterVia(),
     '#size' => 15,
   );
-  $form['third_party_fieldset']['twitter_service'][AddThis::TWITTER_TEMPLATE_KEY] = array(
+  $form['third_party_fieldset']['twitter_service'][AddThis::TWITTER_TEXT_KEY] = array(
     '#type' => 'textfield',
-    '#title' => t('Template text'),
-    '#description' => t('The {{title}} and {{url}} are replaced from the Twitter Button.'),
-    '#default_value' => AddThis::getInstance()->getTwitterTemplate(),
+    '#title' => t('Share Text'),
+    '#description' => t('The text you\'d like to precede the URL & via @Username. Keep it short. <strong>Leave this empty to use the AddThis optional title attribute.</strong>'),
+    '#default_value' => AddThis::getInstance()->getTwitterText(),
+    '#maxlength' => 100,
   );
+  // Display the list of available placeholders if token module is installed.
+  if (module_exists('token')) {
+    $form['third_party_fieldset']['twitter_service']['token_help'] = array(
+      '#theme' => 'token_tree',
+      '#token_types' => array(),
+    );
+  }
 
   return system_settings_form($form);
 }

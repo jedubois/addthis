@@ -4,4 +4,3 @@
 - Refactor the order of methods in the AddThis class to collect same type of methods.
 - Refactor the rendering into classes per display type.
 - Delegate settings save validation to it corresponding display type class.
-- Remove references to Twitter Templates and use the passthrough parameter instead. (http://support.addthis.com/customer/portal/articles/683399-changes-to-how-twitter-works-with-addthis)

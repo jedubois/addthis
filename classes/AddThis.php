@@ -60,8 +60,7 @@ class AddThis {
   // Twitter.
   const TWITTER_VIA_KEY = 'addthis_twitter_via';
   const TWITTER_VIA_DEFAULT = 'AddThis';
-  const TWITTER_TEMPLATE_KEY = 'addthis_twitter_template';
-  const TWITTER_TEMPLATE_DEFAULT = '{{title}} {{url}} via @AddThis';
+  const TWITTER_TEXT_KEY = 'addthis_twitter_text';
 
   // External resources.
   const DEFAULT_BOOKMARK_URL = 'http://www.addthis.com/bookmark.php?v=300';
@@ -333,13 +332,13 @@ class AddThis {
           $configuration['data_ga_social'] = $this->isGoogleAnalyticsSocialTrackingEnabled();
         }
       }
-      $configuration['templates']['twitter'] = $this->getTwitterTemplate();
+      
+      $configuration['passthrough']['twitter'] = $this->getTwitterPassthrough();
       drupal_alter('addthis_configuration', $configuration);
-
-      $templates = array('templates' => $configuration['templates']);
-      unset($configuration['templates']);
+      $passthrough = array('passthrough' => $configuration['passthrough']);
+      unset($configuration['passthrough']);
       $configurationOptionsJavascript = 'var addthis_config = ' . drupal_json_encode($configuration) . "\n";
-      $configurationOptionsJavascript .= 'var addthis_share = ' . drupal_json_encode($templates);
+      $configurationOptionsJavascript .= 'var addthis_share = ' . drupal_json_encode($passthrough);
     }
     drupal_add_js(
       $configurationOptionsJavascript,
@@ -482,9 +481,22 @@ class AddThis {
     return variable_get(self::TWITTER_VIA_KEY, self::TWITTER_VIA_DEFAULT);
   }
 
-  public function getTwitterTemplate() {
-    return variable_get(self::TWITTER_TEMPLATE_KEY, self::TWITTER_TEMPLATE_DEFAULT);
+  public function getTwitterText() {
+    return variable_get(self::TWITTER_TEXT_KEY, NULL);
   }
+
+  public function getTwitterPassthrough() {
+    $twitter = array();
+    $twitter['via'] = $this->getTwitterVia();
+    if ($this->getTwitterText()) {
+      $text = $this->getTwitterText(); 
+      if (module_exists('token')) { 
+        $text = token_replace($text); // Showing token itself if substitution fails; problem is at least visible.
+      }
+      $twitter['text'] = $text;
+    }
+    return $twitter;
+  } 
 
   public function isClickbackTrackingEnabled() {
     return (boolean) variable_get(self::CLICKBACK_TRACKING_ENABLED_KEY, FALSE);
