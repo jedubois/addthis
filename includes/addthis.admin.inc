@@ -137,6 +137,46 @@ function addthis_admin_settings_form($form_state) {
     '#columns' => 3,
   );
 
+  // Optional Attributes http://support.addthis.com/customer/portal/articles/381242-url-title
+  $form['fieldset_optional_attributes'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Optional Attributes'),
+    '#description' => t('By default, AddThis will use the URL and title of the page being viewed. You can however specify a different URL and Page Title for AddThis to use instead. <strong> Note: Some services, most notably Facebook and LinkedIn, do not use these parameters. Rather, they use meta tags to determine the URL, title, and description to share.</strong>'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['fieldset_optional_attributes'][AddThis::OPTIONAL_ATTRIBUTES_TITLE_KEY] = array(
+    '#type' => 'textfield',
+    '#title' => t('addthis:title'),
+    '#default_value' => AddThis::getInstance()->getOptionalAttributesTitle(),
+    '#required' => FALSE,
+    '#size' => 25,
+    '#description' => t('An alternative page title.'),
+  );
+  $form['fieldset_optional_attributes'][AddThis::OPTIONAL_ATTRIBUTES_URL_KEY] = array(
+    '#type' => 'textfield',
+    '#title' => t('addthis:url'),
+    '#default_value' => AddThis::getInstance()->getOptionalAttributesUrl(),
+    '#required' => FALSE,
+    '#size' => 25,
+    '#description' => t('URL to use if not the current page. This is helpful when you have an AddThis button on multiple articles on the same page.'),
+  );
+  $form['fieldset_optional_attributes'][AddThis::OPTIONAL_ATTRIBUTES_DESCRIPTION_KEY] = array(
+    '#type' => 'textfield',
+    '#title' => t('addthis:description'),
+    '#default_value' => AddThis::getInstance()->getOptionalAttributesDescription(),
+    '#required' => FALSE,
+    '#size' => 25,
+    '#description' => t('This is an alternate description.'),
+  );
+  // Display the list of available placeholders if token module is installed.
+  if (module_exists('token')) {
+    $form['fieldset_optional_attributes']['token_help'] = array(
+      '#theme' => 'token_tree',
+      '#token_types' => array(),
+    );
+  }
+
   // Analytics settings.
   $profile_id = AddThis::getInstance()->getProfileId();
   $can_track_clicks = empty($profile_id) ? FALSE : TRUE;

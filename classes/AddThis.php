@@ -21,6 +21,7 @@ class AddThis {
   const PROFILE_ID_QUERY_PARAMETER = 'pubid';
   const TITLE_ATTRIBUTE = 'addthis:title';
   const URL_ATTRIBUTE = 'addthis:url';
+  const DESCRIPTION_ATTRIBUTE = 'addthis:description';
 
   // Persistent variable keys.
   const ADDRESSBOOK_ENABLED_KEY = 'addthis_addressbook_enabled';
@@ -43,6 +44,9 @@ class AddThis {
   const GOOGLE_ANALYTICS_SOCIAL_TRACKING_ENABLED_KEY = 'addthis_google_analytics_social_tracking_enabled';
   const FACEBOOK_LIKE_COUNT_SUPPORT_ENABLED = 'addthis_facebook_like_count_support_enabled';
   const OPEN_WINDOWS_ENABLED_KEY = 'addthis_open_windows_enabled';
+  const OPTIONAL_ATTRIBUTES_DESCRIPTION_KEY = 'addthis_optional_attribute_description'; 
+  const OPTIONAL_ATTRIBUTES_TITLE_KEY = 'addthis_optional_attribute_title';
+  const OPTIONAL_ATTRIBUTES_URL_KEY = 'addthis_optional_attribute_url';
   const PROFILE_ID_KEY = 'addthis_profile_id';
   const SERVICES_CSS_URL_KEY = 'addthis_services_css_url';
   const SERVICES_JSON_URL_KEY = 'addthis_services_json_url';
@@ -355,7 +359,10 @@ class AddThis {
         $attributes += $this->getAttributeTitle($options['#entity']);
       }
       $attributes += $this->getAttributeUrl($options);
-
+      if ($this->getAttributeDescription()) {
+        $attributes += $this->getAttributeDescription();
+      }
+      
       return $attributes;
     }
     return array();
@@ -383,6 +390,18 @@ class AddThis {
 
   public function getProfileId() {
     return check_plain(variable_get(AddThis::PROFILE_ID_KEY));
+  }
+
+  public function getOptionalAttributesTitle() {
+    return check_plain(variable_get(AddThis::OPTIONAL_ATTRIBUTES_TITLE_KEY), NULL);
+  }
+
+  public function getOptionalAttributesUrl() {
+    return check_plain(variable_get(AddThis::OPTIONAL_ATTRIBUTES_URL_KEY), NULL);
+  }
+
+  public function getOptionalAttributesDescription() {
+    return check_plain(variable_get(AddThis::OPTIONAL_ATTRIBUTES_DESCRIPTION_KEY), NULL);
   }
 
   public function getServicesCssUrl() {
@@ -497,7 +516,16 @@ class AddThis {
   }
 
   private function getAttributeTitle($entity) {
-    if (isset($entity->title)) {
+    if ($this->getOptionalAttributesTitle()) {
+      $title = $this->getOptionalAttributesTitle();
+      if (module_exists('token')) { 
+        $title = token_replace($title); // Showing token itself if substitution fails; problem is at least visible.
+      }
+      return array(
+        self::TITLE_ATTRIBUTE => ($title),
+      );
+    }
+    elseif (isset($entity->title)) {
       return array(
         self::TITLE_ATTRIBUTE => (check_plain($entity->title) . ' - ' . variable_get('site_name')),
       );
@@ -506,12 +534,33 @@ class AddThis {
   }
 
   private function getAttributeUrl($options) {
-    if (isset($options['#url'])) {
+    if ($this->getOptionalAttributesUrl()) {
+      $url = $this->getOptionalAttributesUrl();
+      if (module_exists('token')) { 
+        $url = token_replace($url); // Showing token itself if substitution fails; problem is at least visible.
+      }
+      return array(
+        self::URL_ATTRIBUTE => ($url),
+      );
+    }
+    elseif (isset($options['#url'])) {
       return array(
         self::URL_ATTRIBUTE => $options['#url'],
       );
     }
     return array();
+  }
+
+  private function getAttributeDescription() {
+    if ($this->getOptionalAttributesDescription()) {
+      $description = $this->getOptionalAttributesDescription();
+      if (module_exists('token')) { 
+        $description = token_replace($description); // Showing token itself if substitution fails; problem is at least visible.
+      }
+      return array(
+        self::DESCRIPTION_ATTRIBUTE => ($description),
+      );
+    }
   }
 
   private function getServiceNamesAsCommaSeparatedString($services) {
