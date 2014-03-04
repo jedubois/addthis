@@ -191,7 +191,7 @@ function addthis_admin_settings_form($form_state) {
     $form['fieldset_analytics']['can_track_notice'] = array(
       '#theme' => 'html_tag',
       '#tag' => 'div',
-      '#value' => t('For click analytics and statistics you have to provide a ProfileID from <a href="http://www.addthis.com">AddThis.com</a>. Register <a href="https://www.addthis.com/register" targt="_blank">here</a>.'),
+      '#value' => t('For click analytics and statistics you have to provide a ProfileID from <a href="http://www.addthis.com">AddThis.com</a>. Register <a href="https://www.addthis.com/register" targt="_blank">here</a>. <strong>URL fragments cannot be disabled when your ProfileID is not set.</strong>'),
       '#attributes' => array('class' => array('messages', 'warning')),
     );
   }
@@ -201,7 +201,7 @@ function addthis_admin_settings_form($form_state) {
     '#default_value' => AddThis::getInstance()->getProfileId(),
     '#required' => FALSE,
     '#size' => 25,
-    '#description' => t('ProfileID at <a href="http://addthis.com/" target="_blank">AddThis.com</a>. Required for statistics.'),
+    '#description' => t('ProfileID at <a href="http://addthis.com/" target="_blank">AddThis.com</a>. Required for statistics. <strong>URL fragments cannot be disabled when this is NOT set.</strong>'),
   );
   $form['fieldset_analytics'][AddThis::CLICKBACK_TRACKING_ENABLED_KEY] = array(
     '#type' => 'checkbox',
