@@ -9,6 +9,8 @@
         if (typeof Drupal.settings.addthis.load_type != 'undefined') {
           if (Drupal.settings.addthis.load_type == 'async') {
             addthis.init();
+            // Allow other JS to interact with AddThis as suggested by juampy https://drupal.org/node/1960656 
+            $(document).trigger('addthis.init', addthis);
           }
           if (Drupal.settings.addthis.load_type == 'domready') {
             $.getScript(
